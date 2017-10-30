@@ -4,12 +4,27 @@ import env from 'dotenv';
 import Redis from 'redis';
 import bluebird from 'bluebird';
 
+env.config()
+
 bluebird.promisifyAll(Redis.RedisClient.prototype);
 bluebird.promisifyAll(Redis.Multi.prototype);
 
 const server = new Koa();
-const redis = Redis.createClient();
+// const redis = Redis.createClient({
+//   host: process.env.REDIS_HOST,
+//   port: process.env.REDIS_PORT
+// });
 
-server.use(logger('tiny')).listen(process.env.PORT);
+// redis.set('test', 'redis data');
+
+server
+  .use(logger('tiny'))
+  .use(ctx => { // async
+    // ctx.body = await redis.getAsync('test');
+    ctx.body = 'HELLO!!!';
+  })
+  .listen(process.env.PORT, () => {
+    console.log(`server okay ${process.env.PORT}`);
+  });
 
 

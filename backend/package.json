@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "backpack",
+    "build": "backpack build"
+  },
   "dependencies": {
     "backpack-core": "^0.4.3",
     "bluebird": "^3.5.1",
