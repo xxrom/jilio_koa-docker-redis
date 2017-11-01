@@ -10,18 +10,19 @@ bluebird.promisifyAll(Redis.RedisClient.prototype);
 bluebird.promisifyAll(Redis.Multi.prototype);
 
 const server = new Koa();
-// const redis = Redis.createClient({
-//   host: process.env.REDIS_HOST,
-//   port: process.env.REDIS_PORT
-// });
+const redis = Redis.createClient({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT
+});
 
-// redis.set('test', 'redis data');
+redis.set('test', 'redis data');
+
 
 server
   .use(logger('tiny'))
-  .use(ctx => { // async
-    // ctx.body = await redis.getAsync('test');
-    ctx.body = 'HELLO!!!';
+  .use(async ctx => {
+    ctx.body = await redis.getAsync('test');
+    // ctx.body = 'HELLO!!!!444';
   })
   .listen(process.env.PORT, () => {
     console.log(`server okay ${process.env.PORT}`);

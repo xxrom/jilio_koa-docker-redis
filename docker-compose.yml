@@ -1,0 +1,19 @@
+version: "3.3"
+
+services:
+  jilmo-redis:
+    image: redis:4-alpine
+
+  jilmo-backend:
+    build: ./backend/
+    depends_on:
+      - jilmo-redis
+    links:
+      - jilmo-redis
+    volumes:
+      - ./backend/src/:/usr/bin/backend/src/
+    ports:
+      - "4444:8888"
+    environment:
+      - REDIS_PORT=6379
+      - REDIS_HOST=jilmo-redis
